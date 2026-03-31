@@ -2,7 +2,7 @@
 
 import { useRef } from 'react'
 import { Heart, Mail, MessageCircle, Send, Shield, Check } from 'lucide-react'
-import { RAZORPAY_DONATE_URL, CONTACTS, TRUST_NAME, DONATION_TIERS } from '@/lib/constants'
+import { RAZORPAY_DONATE_URL, CONTACTS, TRUST_NAME, DONATION_TIERS, HERO_IMAGES, IMAGES } from '@/lib/constants'
 
 export default function Home() {
   const donationRef = useRef<HTMLDivElement>(null)
@@ -45,11 +45,11 @@ export default function Home() {
 function HeroSection({ onDonateClick }: { onDonateClick: () => void }) {
   return (
     <section className="relative min-h-[85vh] md:min-h-[90vh] flex items-center justify-center overflow-hidden">
-      {/* Background */}
+      {/* Background - using Gaushala image from Cloudflare */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1565346156504-91cca27d6e62?auto=format&fit=crop&w=1920&q=80"
-          alt="Sacred cows"
+          src={HERO_IMAGES[0]}
+          alt="Shri Devraha Baba Gaushala"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60" />
@@ -184,20 +184,29 @@ function DonationSection() {
 function StorySection() {
   return (
     <section className="py-12 sm:py-16 px-4 bg-white">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl sm:text-3xl text-center mb-6 text-earth-brown font-semibold">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-2xl sm:text-3xl text-center mb-8 text-earth-brown font-semibold">
           Every Cow Has a Story
         </h2>
-        <div className="prose prose-lg mx-auto text-gray-700 text-center">
-          <p>
-            Our Gaushala provides shelter, food, and medical care to abandoned and injured cows.
-            Many of these gentle souls have been rescued from the streets, where they faced
-            starvation and mistreatment.
-          </p>
-          <p className="mt-4">
-            With your support, we can continue to provide them with a safe haven where they
-            can live out their days in peace and dignity.
-          </p>
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div className="rounded-xl overflow-hidden shadow-lg">
+            <img
+              src={IMAGES.aboutAshram}
+              alt="Cows at Gaushala"
+              className="w-full h-64 md:h-80 object-cover"
+            />
+          </div>
+          <div className="prose prose-lg text-gray-700">
+            <p>
+              Our Gaushala provides shelter, food, and medical care to abandoned and injured cows.
+              Many of these gentle souls have been rescued from the streets, where they faced
+              starvation and mistreatment.
+            </p>
+            <p className="mt-4">
+              With your support, we can continue to provide them with a safe haven where they
+              can live out their days in peace and dignity.
+            </p>
+          </div>
         </div>
       </div>
     </section>

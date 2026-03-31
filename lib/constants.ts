@@ -2,6 +2,25 @@
 // TODO: Replace with separate Hindi/English pages later
 export const RAZORPAY_DONATE_URL = 'https://rzp.io/l/BMpDxba';
 
+// Asset base URL (Cloudflare)
+export const ASSET_BASE_URL = 'https://dayadevraha.com/kamdhenuseva';
+
+// Hero images
+export const HERO_IMAGES = [
+  `${ASSET_BASE_URL}/assets/home/hero/image-4.jpg`,
+  `${ASSET_BASE_URL}/assets/home/hero/image-1.jpg`,
+  `${ASSET_BASE_URL}/assets/home/hero/image-2.jpg`,
+];
+
+// Other images
+export const IMAGES = {
+  aboutHero: `${ASSET_BASE_URL}/assets/about/hero.JPG`,
+  aboutAshram: `${ASSET_BASE_URL}/assets/home/about-ashram/image-1.jpg`,
+  faq: `${ASSET_BASE_URL}/assets/home/faq/image-1.jpg`,
+  cowPuja1: `${ASSET_BASE_URL}/assets/cow-puja/1.jpg`,
+  cowPuja2: `${ASSET_BASE_URL}/assets/cow-puja/2.jpg`,
+};
+
 // Contact information
 export const CONTACTS = {
   email: 'welcome@kamdhenuseva.com',
