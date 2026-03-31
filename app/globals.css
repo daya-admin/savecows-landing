@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --warm-beige: #FDF6E9;
+  --spiritual-cream: #FFF9F0;
+  --earth-brown: #5D4037;
+  --terracotta: #D97706;
+  --terracotta-dark: #B45309;
+  --terracotta-light: #F59E0B;
+  --sacred-orange: #EA580C;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.btn-primary {
+  @apply bg-terracotta text-white font-semibold rounded-full shadow-lg transition-all hover:scale-105 hover:shadow-xl;
+}
+
+.btn-secondary {
+  @apply bg-white text-earth-brown border-2 border-terracotta font-semibold rounded-full transition-all hover:bg-spiritual-cream;
+}
