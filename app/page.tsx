@@ -1,8 +1,11 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import { Heart, Mail, MessageCircle, Send, Shield, Check } from 'lucide-react'
-import { RAZORPAY_DONATE_URL, CONTACTS, TRUST_NAME, DONATION_TIERS, HERO_IMAGES, IMAGES } from '@/lib/constants'
+import useEmblaCarousel from 'embla-carousel-react'
+import Autoplay from 'embla-carousel-autoplay'
+import { RAZORPAY_PAGE_URL, CONTACTS, TRUST_NAME, DONATION_TIERS, HERO_IMAGES, IMAGES, QUOTES } from '@/lib/constants'
+import CampaignProgress from './components/CampaignProgress'
 
 export default function Home() {
   const donationRef = useRef<HTMLDivElement>(null)
@@ -15,6 +18,11 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <HeroSection onDonateClick={scrollToDonation} />
+
+      {/* Campaign Progress */}
+      <section className="py-8 px-4 bg-gradient-to-b from-black/20 to-transparent -mt-32 pt-36 relative z-20">
+        <CampaignProgress />
+      </section>
 
       {/* Quick Impact */}
       <QuickImpact />
@@ -43,17 +51,44 @@ export default function Home() {
 }
 
 function HeroSection({ onDonateClick }: { onDonateClick: () => void }) {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
+    Autoplay({ delay: 5000, stopOnInteraction: false })
+  ])
+  const [selectedIndex, setSelectedIndex] = useState(0)
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return
+    setSelectedIndex(emblaApi.selectedScrollSnap())
+  }, [emblaApi])
+
+  useEffect(() => {
+    if (!emblaApi) return
+    onSelect()
+    emblaApi.on('select', onSelect)
+    return () => {
+      emblaApi.off('select', onSelect)
+    }
+  }, [emblaApi, onSelect])
+
   return (
     <section className="relative min-h-[85vh] md:min-h-[90vh] flex items-center justify-center overflow-hidden">
-      {/* Background - using Gaushala image from Cloudflare */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src={HERO_IMAGES[0]}
-          alt="Shri Devraha Baba Gaushala"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60" />
+      {/* Background Carousel */}
+      <div className="absolute inset-0 z-0" ref={emblaRef}>
+        <div className="flex h-full">
+          {HERO_IMAGES.map((image, index) => (
+            <div key={index} className="flex-[0_0_100%] min-w-0 relative h-full">
+              <img
+                src={image}
+                alt={`Shri Devraha Baba Gaushala ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ))}
+        </div>
       </div>
+
+      {/* Overlay */}
+      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/40 via-black/30 to-black/60" />
 
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
@@ -80,6 +115,20 @@ function HeroSection({ onDonateClick }: { onDonateClick: () => void }) {
           <Heart className="w-5 h-5" />
           Donate Now
         </button>
+
+        {/* Carousel Dots */}
+        <div className="flex justify-center gap-2 mt-8">
+          {HERO_IMAGES.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => emblaApi?.scrollTo(index)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                index === selectedIndex ? 'bg-white w-6' : 'bg-white/50'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -116,6 +165,31 @@ function QuickImpact() {
 }
 
 function DonationSection() {
+  const [selectedAmount, setSelectedAmount] = useState<number>(5000)
+  const [customAmount, setCustomAmount] = useState<string>('')
+  const [isCustom, setIsCustom] = useState<boolean>(false)
+
+  const handleCustomAmountChange = (value: string) => {
+    // Allow only numbers
+    const numericValue = value.replace(/[^0-9]/g, '')
+    setCustomAmount(numericValue)
+
+    if (numericValue) {
+      const amount = parseInt(numericValue, 10)
+      // Limit: min 100, max 200000 (2 lakh)
+      if (amount >= 100 && amount <= 200000) {
+        setSelectedAmount(amount)
+        setIsCustom(true)
+      }
+    }
+  }
+
+  const selectTier = (amount: number) => {
+    setSelectedAmount(amount)
+    setCustomAmount('')
+    setIsCustom(false)
+  }
+
   return (
     <section className="py-12 sm:py-16 px-4 bg-warm-beige">
       <div className="max-w-5xl mx-auto">
@@ -131,25 +205,70 @@ function DonationSection() {
         </div>
 
         {/* Donation Tiers */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {DONATION_TIERS.map((tier) => (
-            <div
-              key={tier.amount}
-              className={`bg-white rounded-xl p-6 text-center shadow-md hover:shadow-lg transition-all cursor-pointer relative ${
-                tier.popular ? 'ring-2 ring-terracotta' : ''
-              }`}
-            >
-              {tier.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-sacred-orange text-white text-xs rounded-full">
-                  Popular
-                </div>
-              )}
-              <p className="text-2xl sm:text-3xl font-bold text-terracotta-dark">
-                ₹{tier.amount.toLocaleString('en-IN')}
-              </p>
-              <p className="text-sm text-gray-600 mt-2">{tier.label}</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          {DONATION_TIERS.map((tier) => {
+            const isSelected = !isCustom && selectedAmount === tier.amount
+            return (
+              <div
+                key={tier.amount}
+                onClick={() => selectTier(tier.amount)}
+                className={`bg-white rounded-xl p-6 text-center shadow-md hover:shadow-lg transition-all cursor-pointer relative ${
+                  isSelected
+                    ? 'ring-2 ring-terracotta scale-105'
+                    : tier.popular
+                    ? 'ring-1 ring-terracotta/30'
+                    : ''
+                }`}
+              >
+                {tier.popular && !isSelected && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-sacred-orange text-white text-xs rounded-full">
+                    Popular
+                  </div>
+                )}
+                {isSelected && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-7 h-7 bg-terracotta rounded-full flex items-center justify-center">
+                    <Check className="w-4 h-4 text-white" />
+                  </div>
+                )}
+                <p className="text-2xl sm:text-3xl font-bold text-terracotta-dark">
+                  ₹{tier.amount.toLocaleString('en-IN')}
+                </p>
+                <p className="text-sm text-gray-600 mt-2">{tier.label}</p>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Custom Amount Input */}
+        <div className="max-w-md mx-auto mb-8">
+          <div className={`bg-white rounded-xl p-4 shadow-md transition-all ${
+            isCustom ? 'ring-2 ring-terracotta' : ''
+          }`}>
+            <label className="block text-sm text-gray-600 mb-2 text-center">
+              Or enter a custom amount:
+            </label>
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl text-gray-400">₹</span>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={customAmount}
+                onChange={(e) => handleCustomAmountChange(e.target.value)}
+                placeholder="Enter amount"
+                className="w-full pl-10 pr-4 py-3 text-xl text-center border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-terracotta focus:border-transparent"
+              />
             </div>
-          ))}
+            <p className="text-xs text-gray-400 mt-2 text-center">
+              Min ₹100 · Max ₹2,00,000
+            </p>
+          </div>
+        </div>
+
+        {/* Selected Amount Display */}
+        <div className="text-center mb-6">
+          <p className="text-lg text-earth-brown">
+            Selected: <span className="font-bold text-terracotta">₹{selectedAmount.toLocaleString('en-IN')}</span>
+          </p>
         </div>
 
         {/* Emotional Quote */}
@@ -162,13 +281,13 @@ function DonationSection() {
         {/* CTA Button - Links to Razorpay */}
         <div className="text-center">
           <a
-            href={RAZORPAY_DONATE_URL}
+            href={`${RAZORPAY_PAGE_URL}?amount=${selectedAmount}`}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary text-base sm:text-lg px-10 py-4 inline-flex items-center gap-2"
           >
             <Heart className="w-5 h-5" />
-            Donate via Razorpay
+            Donate ₹{selectedAmount.toLocaleString('en-IN')}
           </a>
 
           <div className="mt-4 flex items-center justify-center gap-2 text-sm text-gray-600">
@@ -214,13 +333,19 @@ function StorySection() {
 }
 
 function QuoteSection() {
+  const [quote, setQuote] = useState(QUOTES[0])
+
+  useEffect(() => {
+    setQuote(QUOTES[Math.floor(Math.random() * QUOTES.length)])
+  }, [])
+
   return (
     <section className="py-12 px-4 bg-spiritual-cream">
       <div className="max-w-3xl mx-auto text-center">
         <blockquote className="text-xl sm:text-2xl md:text-3xl italic text-earth-brown">
-          &quot;The cow is the mother of all civilization.&quot;
+          &quot;{quote.text}&quot;
         </blockquote>
-        <p className="mt-4 text-gray-600">— Indian Wisdom</p>
+        <p className="mt-4 text-gray-600">— {quote.source}</p>
       </div>
     </section>
   )
