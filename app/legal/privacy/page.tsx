@@ -39,8 +39,8 @@ export default function PrivacyPolicy() {
           <h2 className="text-xl font-semibold text-earth-brown mt-6 mb-3">Contact Us</h2>
           <p>
             For any privacy-related questions, please contact us at:{' '}
-            <a href="mailto:welcome@kamdhenuseva.com" className="text-terracotta hover:underline">
-              welcome@kamdhenuseva.com
+            <a href="mailto:kamdhenuseva@dayadevraha.com" className="text-terracotta hover:underline">
+              kamdhenuseva@dayadevraha.com
             </a>
           </p>
         </div>

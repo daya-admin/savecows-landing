@@ -35,8 +35,8 @@ export default function DonationPolicy() {
           <p>
             Donations once made are non-refundable. In case of accidental double payment
             or technical error, please contact us within 7 days at{' '}
-            <a href="mailto:welcome@kamdhenuseva.com" className="text-terracotta hover:underline">
-              welcome@kamdhenuseva.com
+            <a href="mailto:kamdhenuseva@dayadevraha.com" className="text-terracotta hover:underline">
+              kamdhenuseva@dayadevraha.com
             </a>.
           </p>
 
