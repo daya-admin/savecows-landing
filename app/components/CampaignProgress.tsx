@@ -46,7 +46,7 @@ export default function CampaignProgress() {
       <div className="flex items-center gap-2 mb-4">
         <Target className="w-5 h-5 text-terracotta" />
         <h3 className="text-lg font-semibold text-earth-brown">
-          Feed 150+ Cows for 1 Year
+          Feed 1000+ Cows for 1 Year
         </h3>
       </div>
 
