@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState, useEffect, useCallback } from 'react'
-import { Heart, Mail, MessageCircle, Send, Shield, Check } from 'lucide-react'
+import { Heart, Mail, MessageCircle, Send, Shield, Check, Globe } from 'lucide-react'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import { RAZORPAY_PAGE_URL, CONTACTS, TRUST_NAME, DONATION_TIERS, HERO_IMAGES, IMAGES, QUOTES } from '@/lib/constants'
@@ -35,6 +35,9 @@ export default function Home() {
       {/* Story Section */}
       <StorySection />
 
+      {/* Call to Action - Appeals */}
+      <CallToActionSection onDonateClick={scrollToDonation} />
+
       {/* Urgent Appeal */}
       <UrgentAppeal />
 
@@ -43,6 +46,9 @@ export default function Home() {
 
       {/* Video Section */}
       <VideoSection onDonateClick={scrollToDonation} />
+
+      {/* Adopt Cows Section */}
+      <AdoptCowsSection />
 
       {/* Quote Section */}
       <QuoteSection />
@@ -145,7 +151,7 @@ function HeroSection({ onDonateClick }: { onDonateClick: () => void }) {
 
 function QuickImpact() {
   const stats = [
-    { number: '1000+', label: 'Cows Protected', labelHi: 'गायों की रक्षा' },
+    { number: '1000+', label: 'Cows Protection', labelHi: 'गायों की रक्षा' },
     { number: '₹5,000', label: 'Monthly Care Cost', labelHi: 'मासिक देखभाल' },
     { number: '365', label: 'Days of Love', labelHi: 'प्यार के दिन' },
   ]
@@ -154,7 +160,7 @@ function QuickImpact() {
     <section className="py-12 px-4 bg-white">
       <div className="max-w-4xl mx-auto">
         <h2 className="text-2xl sm:text-3xl text-center mb-8 text-earth-brown font-semibold">
-          Your Impact
+          Together we can make a difference
         </h2>
         <div className="grid grid-cols-3 gap-4">
           {stats.map((stat) => (
@@ -340,7 +346,7 @@ function StorySection() {
           <h3 className="text-xl sm:text-2xl text-center mb-6 text-earth-brown font-semibold">
             Why We Care for Cows
           </h3>
-          <div className="prose prose-lg text-gray-700 max-w-3xl mx-auto">
+          <div className="prose prose-lg text-gray-700 max-w-3xl mx-auto text-center">
             <p>
               In the Vedic scriptures — the Shastras and Puranas — it is said that the cow is the abode of all gods and goddesses. Gau-mata is the living embodiment of maternal love, selflessly sharing her energy with all of humanity. Caring for cows (Gau-seva) is the highest act of virtue, a creation of good karma that requires no special reason, as love and compassion are natural to the human heart. By helping cows, you perform a noble deed, which, according to spiritual teachings, returns to the giver multiplied many times over.
             </p>
@@ -365,30 +371,64 @@ function StorySection() {
           Cows are a source of blessings that allow the creation of eco-friendly life-support systems:
         </p>
         <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          <div className="bg-white rounded-xl p-6 shadow-md">
+          <div className="bg-white rounded-xl p-6 shadow-md text-center">
             <h4 className="font-semibold text-terracotta mb-2">Biogas</h4>
             <p className="text-sm text-gray-600">
               Cow dung in the Ashram is used to produce biogas, which provides fuel for cooking prasadam for thousands of people and for preparing Ayurvedic medicines.
             </p>
           </div>
-          <div className="bg-white rounded-xl p-6 shadow-md">
+          <div className="bg-white rounded-xl p-6 shadow-md text-center">
             <h4 className="font-semibold text-terracotta mb-2">Zero-waste and eco-friendly production</h4>
             <p className="text-sm text-gray-600">
               Paper, packaging, disposable tableware, and napkins are made from the cellulose in cow dung. This helps preserve forests and nature by replacing tree cutting with the use of cow by-products.
             </p>
           </div>
-          <div className="bg-white rounded-xl p-6 shadow-md">
+          <div className="bg-white rounded-xl p-6 shadow-md text-center">
             <h4 className="font-semibold text-terracotta mb-2">Stone-grinding with bulls</h4>
             <p className="text-sm text-gray-600">
               Bulls help turn stone mills, producing flour without heat treatment and preserving all the nutrients of the grain. This method is completely ecological: there is no waste, no electricity is consumed, and the air is not polluted.
             </p>
           </div>
-          <div className="bg-white rounded-xl p-6 shadow-md">
+          <div className="bg-white rounded-xl p-6 shadow-md text-center">
             <h4 className="font-semibold text-terracotta mb-2">Ayurveda</h4>
             <p className="text-sm text-gray-600">
               Products derived from cows (Panchagavya) are indispensable in the preparation of important Ayurvedic medicines and for purifying herbs, minerals, and metals.
             </p>
           </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function CallToActionSection({ onDonateClick }: { onDonateClick: () => void }) {
+  const appeals = [
+    { icon: Shield, text: 'Protect rare and sacred cow breeds' },
+    { icon: Heart, text: 'Sustain a cruelty-free sanctuary' },
+    { icon: Globe, text: 'Support ecological balance' },
+  ]
+
+  return (
+    <section className="py-8 px-4 bg-gradient-to-r from-spiritual-cream to-warm-beige">
+      <div className="max-w-5xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-6 sm:gap-8 mb-8">
+          {appeals.map((appeal, index) => (
+            <div key={index} className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-terracotta/10 flex items-center justify-center">
+                <appeal.icon className="w-5 h-5 text-terracotta" />
+              </div>
+              <span className="text-gray-700 text-sm sm:text-base">{appeal.text}</span>
+            </div>
+          ))}
+        </div>
+        <div className="text-center">
+          <button
+            onClick={onDonateClick}
+            className="btn-primary text-lg px-10 py-4 inline-flex items-center gap-2"
+          >
+            <Heart className="w-5 h-5" />
+            Donate Now
+          </button>
         </div>
       </div>
     </section>
@@ -504,6 +544,40 @@ function VideoSection({ onDonateClick }: { onDonateClick: () => void }) {
   )
 }
 
+function AdoptCowsSection() {
+  return (
+    <section className="py-12 sm:py-16 px-4 bg-warm-beige">
+      <div className="max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div className="rounded-xl overflow-hidden shadow-lg">
+            <img
+              src={IMAGES.adoptCow}
+              alt="Beautiful cow at our Goshala"
+              className="w-full h-64 md:h-80 object-cover"
+            />
+          </div>
+          <div>
+            <h2 className="text-2xl sm:text-3xl mb-4 text-terracotta font-semibold">
+              Looking for a deeper connection?
+            </h2>
+            <p className="text-gray-700 mb-6">
+              You can personally support and stay connected with a cow through our adoption program.
+            </p>
+            <a
+              href="https://kamdhenuseva.dayadevraha.com/en/cows"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-8 py-3 border-2 border-terracotta text-terracotta rounded-full hover:bg-terracotta hover:text-white transition-colors"
+            >
+              Adopt a Cow
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function QuoteSection() {
   const [quote, setQuote] = useState(QUOTES[0])
 
@@ -512,12 +586,17 @@ function QuoteSection() {
   }, [])
 
   return (
-    <section className="py-12 px-4 bg-spiritual-cream">
-      <div className="max-w-3xl mx-auto text-center">
-        <blockquote className="text-xl sm:text-2xl md:text-3xl italic text-earth-brown">
-          &quot;{quote.text}&quot;
+    <section className="py-16 px-4 bg-spiritual-cream relative overflow-hidden">
+      {/* Decorative quotes */}
+      <div className="absolute top-4 left-4 sm:top-8 sm:left-8 text-6xl sm:text-8xl text-terracotta/10 font-serif select-none">"</div>
+      <div className="absolute bottom-4 right-4 sm:bottom-8 sm:right-8 text-6xl sm:text-8xl text-terracotta/10 font-serif select-none">"</div>
+
+      <div className="max-w-3xl mx-auto text-center relative z-10">
+        <div className="w-16 h-1 bg-terracotta mx-auto mb-8" />
+        <blockquote className="text-lg sm:text-xl md:text-2xl text-earth-brown leading-relaxed">
+          {quote.text}
         </blockquote>
-        <p className="mt-4 text-gray-600">— {quote.source}</p>
+        <p className="mt-6 text-gray-600">— {quote.source}</p>
       </div>
     </section>
   )
