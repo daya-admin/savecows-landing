@@ -26,7 +26,7 @@ export default function CampaignProgress() {
   const [data, setData] = useState<CampaignData>({
     total: 0,
     donors: 0,
-    goal: 30000000,
+    goal: 25000000,
     daysLeft: 30,
     percentFunded: 0
   })
@@ -59,9 +59,10 @@ export default function CampaignProgress() {
           <span className="text-gray-600 ml-2">raised</span>
         </div>
         <div className="text-right">
-          <span className="text-xl sm:text-2xl font-semibold text-earth-brown">
-            ₹2,50,00,000
+          <span className="text-3xl sm:text-4xl font-bold text-terracotta">
+            ₹{formatIndianNumber(data.goal)}
           </span>
+          <span className="text-gray-600 ml-2">goal</span>
         </div>
       </div>
 

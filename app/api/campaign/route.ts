@@ -4,7 +4,7 @@ import { getRequestContext } from '@cloudflare/next-on-pages'
 export const runtime = 'edge'
 
 // Campaign configuration
-const CAMPAIGN_GOAL = 30000000 // ₹3 Crore = 3,00,00,000
+const CAMPAIGN_GOAL = 25000000 // ₹2.5 Crore = 2,50,00,000
 const CAMPAIGN_END_DATE = '2026-05-01T23:59:59+05:30' // 30 days from April 1
 
 // KV Namespace type
