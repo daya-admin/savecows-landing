@@ -118,6 +118,69 @@ dig savecows.dayadevraha.com @8.8.8.8 +short
 | `npm run deploy` | Деплой на Cloudflare Pages |
 | `npm run preview` | Локальный preview Cloudflare |
 
+## Работа с изображениями
+
+### Скачивание фото с Яндекс Диска
+
+```bash
+# Получить ссылку на скачивание через API
+DOWNLOAD_URL=$(curl -sL "https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key=YANDEX_DISK_URL&path=/путь/к/файлу.jpg" | python3 -c "import json,sys; print(json.load(sys.stdin)['href'])")
+
+# Скачать файл
+curl -sL "$DOWNLOAD_URL" -o /tmp/photo.jpg
+```
+
+Пример:
+```bash
+# Скачать фото из папки на Яндекс Диске
+DOWNLOAD_URL=$(curl -sL "https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key=https://disk.yandex.ru/d/q-pDbwmIu2zHHA&path=/Madhav%20das%20ji%20-%20web/0K1A7565.jpg" | python3 -c "import json,sys; print(json.load(sys.stdin)['href'])")
+curl -sL "$DOWNLOAD_URL" -o /tmp/goshala.jpg
+```
+
+### Загрузка фото в Cloudflare R2
+
+```bash
+# Загрузить в R2 bucket
+npx wrangler r2 object put dayadevraha-assets/kamdhenuseva/assets/savecows/photo.jpg \
+  --file /tmp/photo.jpg \
+  --content-type "image/jpeg"
+```
+
+После загрузки фото доступно по URL:
+```
+https://pub-4d0f40a00e3346068d49bbdd4c914540.r2.dev/kamdhenuseva/assets/savecows/photo.jpg
+```
+
+### Добавление фото в проект
+
+1. Добавить URL в `lib/constants.ts`:
+```typescript
+export const IMAGES = {
+  newPhoto: `${ASSET_BASE_URL}/assets/savecows/photo.jpg`,
+  // ...
+};
+```
+
+2. Использовать в компоненте:
+```tsx
+<img src={IMAGES.newPhoto} alt="Description" />
+```
+
+## Структура контента
+
+Лендинг состоит из секций:
+1. **Hero** — слайдер с фото и заголовком
+2. **Campaign Progress** — прогресс сбора
+3. **Quick Impact** — статистика (1000+ коров, ₹5,000/месяц)
+4. **Donation Section** — выбор суммы пожертвования
+5. **Story Section** — About Our Goshala, Why We Care, Preserving Rare Breeds, Ecological Significance
+6. **Urgent Appeal** — срочный сбор на корм
+7. **Where Donations Go** — куда идут пожертвования
+8. **Video Section** — YouTube видео
+9. **Quote Section** — цитаты от Shri Devraha Baba
+10. **International Support** — контакты для международных доноров
+11. **Footer** — название траста, ссылки
+
 ## Ссылки
 
 - **Production:** https://savecows.dayadevraha.com/

@@ -35,6 +35,15 @@ export default function Home() {
       {/* Story Section */}
       <StorySection />
 
+      {/* Urgent Appeal */}
+      <UrgentAppeal />
+
+      {/* Where Donations Go */}
+      <WhereDonationsGo />
+
+      {/* Video Section */}
+      <VideoSection onDonateClick={scrollToDonation} />
+
       {/* Quote Section */}
       <QuoteSection />
 
@@ -136,7 +145,7 @@ function HeroSection({ onDonateClick }: { onDonateClick: () => void }) {
 
 function QuickImpact() {
   const stats = [
-    { number: '150+', label: 'Cows Protected', labelHi: 'गायों की रक्षा' },
+    { number: '1000+', label: 'Cows Protected', labelHi: 'गायों की रक्षा' },
     { number: '₹5,000', label: 'Monthly Care Cost', labelHi: 'मासिक देखभाल' },
     { number: '365', label: 'Days of Love', labelHi: 'प्यार के दिन' },
   ]
@@ -304,29 +313,192 @@ function StorySection() {
   return (
     <section className="py-12 sm:py-16 px-4 bg-white">
       <div className="max-w-5xl mx-auto">
+        {/* About Our Goshala */}
         <h2 className="text-2xl sm:text-3xl text-center mb-8 text-earth-brown font-semibold">
-          Every Cow Has a Story
+          About Our Goshala
         </h2>
-        <div className="grid md:grid-cols-2 gap-8 items-center">
+        <div className="grid md:grid-cols-2 gap-8 items-center mb-16">
           <div className="rounded-xl overflow-hidden shadow-lg">
             <img
-              src={IMAGES.aboutAshram}
-              alt="Cows at Gaushala"
+              src={IMAGES.aboutGoshala}
+              alt="Cows at Shri Devraha Baba Gaushala"
               className="w-full h-64 md:h-80 object-cover"
             />
           </div>
           <div className="prose prose-lg text-gray-700">
             <p>
-              Our Gaushala provides shelter, food, and medical care to abandoned and injured cows.
-              Many of these gentle souls have been rescued from the streets, where they faced
-              starvation and mistreatment.
+              Our shelter is located in the holy city of Vrindavan, on the banks of the sacred Yamuna, within the Ashram of Shri Devraha Baba. This is a place where love and care become a reality for over 1,000 cows. We take under our protection not only healthy cows and bulls but also those who are in special need of help: the sick and cows with physical challenges, who find shelter and care in our ashram. We strive to surround every Gau-mata under our care with the utmost attention, creating an atmosphere of peace and love for them.
             </p>
             <p className="mt-4">
-              With your support, we can continue to provide them with a safe haven where they
-              can live out their days in peace and dignity.
+              In our Ashram, cows are not seen as financial instruments for profit. They live here for their entire lives, and after their natural death, they are buried with honors and the recitation of mantras, as sacred beings. Each cow is given a name, as they deeply value personal attention and love, which even physically reflects in their health and the amount of milk they produce.
             </p>
           </div>
         </div>
+
+        {/* Why We Care */}
+        <div className="bg-spiritual-cream rounded-2xl p-8 mb-16">
+          <h3 className="text-xl sm:text-2xl text-center mb-6 text-earth-brown font-semibold">
+            Why We Care for Cows
+          </h3>
+          <div className="prose prose-lg text-gray-700 max-w-3xl mx-auto">
+            <p>
+              In the Vedic scriptures — the Shastras and Puranas — it is said that the cow is the abode of all gods and goddesses. Gau-mata is the living embodiment of maternal love, selflessly sharing her energy with all of humanity. Caring for cows (Gau-seva) is the highest act of virtue, a creation of good karma that requires no special reason, as love and compassion are natural to the human heart. By helping cows, you perform a noble deed, which, according to spiritual teachings, returns to the giver multiplied many times over.
+            </p>
+          </div>
+        </div>
+
+        {/* Preserving Rare Breeds */}
+        <div className="mb-16">
+          <h3 className="text-xl sm:text-2xl text-center mb-6 text-earth-brown font-semibold">
+            Preserving Rare Cow Breeds
+          </h3>
+          <p className="prose prose-lg text-gray-700 max-w-3xl mx-auto text-center">
+            Previously, there were more than a hundred breeds of cows in India, but today only 32 remain. The Ashram of Shri Devraha Baba is dedicated to preserving and reproducing these rare breeds.
+          </p>
+        </div>
+
+        {/* Ecological Significance */}
+        <h3 className="text-xl sm:text-2xl text-center mb-6 text-earth-brown font-semibold">
+          The Ecological Significance of Cows and Bulls
+        </h3>
+        <p className="prose prose-lg text-gray-700 max-w-3xl mx-auto text-center mb-8">
+          Cows are a source of blessings that allow the creation of eco-friendly life-support systems:
+        </p>
+        <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="bg-white rounded-xl p-6 shadow-md">
+            <h4 className="font-semibold text-terracotta mb-2">Biogas</h4>
+            <p className="text-sm text-gray-600">
+              Cow dung in the Ashram is used to produce biogas, which provides fuel for cooking prasadam for thousands of people and for preparing Ayurvedic medicines.
+            </p>
+          </div>
+          <div className="bg-white rounded-xl p-6 shadow-md">
+            <h4 className="font-semibold text-terracotta mb-2">Zero-waste and eco-friendly production</h4>
+            <p className="text-sm text-gray-600">
+              Paper, packaging, disposable tableware, and napkins are made from the cellulose in cow dung. This helps preserve forests and nature by replacing tree cutting with the use of cow by-products.
+            </p>
+          </div>
+          <div className="bg-white rounded-xl p-6 shadow-md">
+            <h4 className="font-semibold text-terracotta mb-2">Stone-grinding with bulls</h4>
+            <p className="text-sm text-gray-600">
+              Bulls help turn stone mills, producing flour without heat treatment and preserving all the nutrients of the grain. This method is completely ecological: there is no waste, no electricity is consumed, and the air is not polluted.
+            </p>
+          </div>
+          <div className="bg-white rounded-xl p-6 shadow-md">
+            <h4 className="font-semibold text-terracotta mb-2">Ayurveda</h4>
+            <p className="text-sm text-gray-600">
+              Products derived from cows (Panchagavya) are indispensable in the preparation of important Ayurvedic medicines and for purifying herbs, minerals, and metals.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function UrgentAppeal() {
+  return (
+    <section className="py-12 sm:py-16 px-4 bg-gradient-to-r from-terracotta/10 to-sacred-orange/10">
+      <div className="max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div className="rounded-xl overflow-hidden shadow-lg">
+            <img
+              src={IMAGES.urgentAppeal}
+              alt="Spring Feed Purchase"
+              className="w-full h-64 md:h-80 object-cover"
+            />
+          </div>
+          <div>
+            <h2 className="text-2xl sm:text-3xl mb-6 text-earth-brown font-semibold">
+              Urgent Appeal — Spring Feed Purchase
+            </h2>
+            <div className="prose prose-lg text-gray-700">
+              <p>
+                The most critical time of the year has arrived. The ashram's own lands can provide only 5–7% of the cows' annual food needs. The entire main supply of feed for the year must be purchased within a short period: from mid-March to the end of April. This is a time of intensive work, on which the well-being of our cows for the coming months depends. We invite you to join this important mission and help us establish the annual food fund.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function WhereDonationsGo() {
+  return (
+    <section className="py-12 sm:py-16 px-4 bg-white">
+      <div className="max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div className="md:order-2">
+            <div className="rounded-xl overflow-hidden shadow-lg">
+              <img
+                src={IMAGES.donationsGo}
+                alt="Cow feed and care"
+                className="w-full h-64 md:h-80 object-cover"
+              />
+            </div>
+          </div>
+          <div className="md:order-1">
+            <h2 className="text-2xl sm:text-3xl mb-6 text-earth-brown font-semibold">
+              Where Your Donations Go
+            </h2>
+            <div className="prose prose-lg text-gray-700">
+              <p>
+                Every donation you make turns into high-quality food for the cows. During this period, we purchase:
+              </p>
+              <ul className="mt-4 space-y-2">
+                <li><strong>Busa</strong> — carefully selected dry hay.</li>
+                <li><strong>Khal</strong> — nutritious mustard cake.</li>
+                <li><strong>Grain mixes</strong> — wheat, barley, bajra, and other types of grains and millets.</li>
+              </ul>
+              <p className="mt-4">
+                We provide a complete diet to ensure our cows remain healthy and strong.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Trust and Assurance */}
+        <div className="mt-12 bg-spiritual-cream rounded-2xl p-8">
+          <h3 className="text-xl sm:text-2xl text-center mb-6 text-earth-brown font-semibold">
+            Trust and Assurance
+          </h3>
+          <div className="prose prose-lg text-gray-700 max-w-3xl mx-auto text-center">
+            <p>
+              You can be 100% confident that every contribution will be used exclusively for the cows' needs and the purchase of feed. Your participation in Gau-seva is not just financial support; it is an investment in your "spiritual treasury," bringing blessings to you and your loved ones. Let us perform this noble service together!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function VideoSection({ onDonateClick }: { onDonateClick: () => void }) {
+  return (
+    <section className="py-12 sm:py-16 px-4 bg-earth-brown text-white">
+      <div className="max-w-4xl mx-auto text-center">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl mb-8 font-semibold">
+          Help Us Provide Food for 1,000 Cows for an Entire Year
+        </h2>
+
+        {/* YouTube Video */}
+        <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-2xl mb-8">
+          <iframe
+            src="https://www.youtube.com/embed/5IkJvS9RCyI"
+            title="Gau Seva Video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="absolute inset-0 w-full h-full"
+          />
+        </div>
+
+        <button
+          onClick={onDonateClick}
+          className="bg-terracotta hover:bg-terracotta-dark text-white text-lg px-10 py-4 rounded-full inline-flex items-center gap-2 transition-all hover:scale-105"
+        >
+          <Heart className="w-5 h-5" />
+          Donate Now
+        </button>
       </div>
     </section>
   )
@@ -371,6 +543,16 @@ function InternationalSupport() {
       value: `@${CONTACTS.telegram}`,
       href: `https://t.me/${CONTACTS.telegram}`,
     },
+    {
+      icon: ({ className }: { className?: string }) => (
+        <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+          <path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 16.611h-1.744c-.66 0-.862-.523-2.049-1.714-1.033-1.01-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.563c0 .424-.135.678-1.253.678-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4 8.673 4 8.249c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.678.847 2.49 2.27 4.675 2.862 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.203.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.254-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.049.17.474-.085.716-.576.716z"/>
+        </svg>
+      ),
+      label: 'VK',
+      value: `vk.com/${CONTACTS.vk}`,
+      href: `https://vk.com/${CONTACTS.vk}`,
+    },
   ]
 
   return (
@@ -383,20 +565,20 @@ function InternationalSupport() {
           For donations from outside India, please contact us for alternative payment methods.
         </p>
 
-        <div className="grid sm:grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
           {contacts.map((contact) => (
             <a
               key={contact.label}
               href={contact.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="block p-6 bg-spiritual-cream rounded-xl hover:shadow-lg transition-all hover:scale-105"
+              className="block p-6 bg-spiritual-cream rounded-xl hover:shadow-lg transition-all"
             >
               <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center mx-auto mb-3">
                 <contact.icon className="w-6 h-6 text-terracotta" />
               </div>
               <p className="font-medium text-earth-brown">{contact.label}</p>
-              <p className="text-sm text-gray-600 mt-1">{contact.value}</p>
+              <p className="text-xs text-gray-600 mt-1 break-all">{contact.value}</p>
             </a>
           ))}
         </div>
