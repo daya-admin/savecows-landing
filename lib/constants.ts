@@ -21,6 +21,7 @@ export const IMAGES = {
   aboutGoshala: `${ASSET_BASE_URL}/assets/savecows/about-goshala.jpg`,
   urgentAppeal: `${ASSET_BASE_URL}/assets/savecows/urgent-appeal.jpg`,
   donationsGo: `${ASSET_BASE_URL}/assets/savecows/donations-go.jpg`,
+  adoptCow: `${ASSET_BASE_URL}/assets/savecows/adopt-cow.jpg`,
   faq: `${ASSET_BASE_URL}/assets/home/faq/image-1.jpg`,
   cowPuja1: `${ASSET_BASE_URL}/assets/cow-puja/1.jpg`,
   cowPuja2: `${ASSET_BASE_URL}/assets/cow-puja/2.jpg`,

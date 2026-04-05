@@ -1,10 +1,21 @@
 import { NextResponse } from 'next/server'
+import { getRequestContext } from '@cloudflare/next-on-pages'
 
 export const runtime = 'edge'
 
 // Campaign configuration
 const CAMPAIGN_GOAL = 30000000 // ₹3 Crore = 3,00,00,000
 const CAMPAIGN_END_DATE = '2026-05-01T23:59:59+05:30' // 30 days from April 1
+
+// KV Namespace type
+interface KVNamespace {
+  get(key: string, type: 'json'): Promise<unknown>
+  put(key: string, value: string): Promise<void>
+}
+
+interface CloudflareEnv {
+  CAMPAIGN_DATA: KVNamespace
+}
 
 export interface CampaignData {
   total: number
@@ -21,9 +32,10 @@ export interface CampaignData {
 
 export async function GET() {
   try {
-    // Get KV binding
-    // @ts-expect-error - KV binding from Cloudflare
-    const kv = process.env.CAMPAIGN_DATA as KVNamespace | undefined
+    // Get KV binding from Cloudflare context
+    const ctx = getRequestContext()
+    const env = ctx.env as unknown as CloudflareEnv
+    const kv = env.CAMPAIGN_DATA
 
     let total = 0
     let donors = 0

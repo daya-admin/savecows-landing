@@ -50,14 +50,19 @@ export default function CampaignProgress() {
         </h3>
       </div>
 
-      {/* Amount Raised */}
-      <div className="mb-2">
-        <span className="text-3xl sm:text-4xl font-bold text-terracotta">
-          ₹{formatIndianNumber(data.total)}
-        </span>
-        <span className="text-gray-600 ml-2">
-          raised of ₹{formatIndianNumber(data.goal)} goal
-        </span>
+      {/* Amount Raised + Goal on right */}
+      <div className="flex justify-between items-baseline mb-2">
+        <div>
+          <span className="text-3xl sm:text-4xl font-bold text-terracotta">
+            ₹{formatIndianNumber(data.total)}
+          </span>
+          <span className="text-gray-600 ml-2">raised</span>
+        </div>
+        <div className="text-right">
+          <span className="text-xl sm:text-2xl font-semibold text-earth-brown">
+            ₹2,50,00,000
+          </span>
+        </div>
       </div>
 
       {/* Progress Bar */}
