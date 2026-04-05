@@ -66,8 +66,11 @@ export async function POST(request: NextRequest) {
     const signature = request.headers.get('x-razorpay-signature')
 
     // Verify webhook signature
-    // TODO: Move to environment variable when Cloudflare Pages properly supports it
-    const webhookSecret = env.RAZORPAY_WEBHOOK_SECRET || process.env.RAZORPAY_WEBHOOK_SECRET || '@zqSKZU9S_Av5tT'
+    const webhookSecret = env.RAZORPAY_WEBHOOK_SECRET || process.env.RAZORPAY_WEBHOOK_SECRET
+    if (!webhookSecret) {
+      console.error('RAZORPAY_WEBHOOK_SECRET not configured')
+      return NextResponse.json({ error: 'Server misconfigured' }, { status: 500 })
+    }
 
     if (!signature || !(await verifySignature(body, signature, webhookSecret))) {
       console.error('Invalid webhook signature')

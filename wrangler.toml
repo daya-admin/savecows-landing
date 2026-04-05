@@ -8,5 +8,5 @@ pages_build_output_dir = ".vercel/output/static"
 binding = "CAMPAIGN_DATA"
 id = "2239c2a03ab44e88906938c83d1312d3"
 
-[vars]
-RAZORPAY_WEBHOOK_SECRET = "@zqSKZU9S_Av5tT"
+# Secrets are managed via Cloudflare Dashboard (Settings > Variables and Secrets)
+# RAZORPAY_WEBHOOK_SECRET - set as encrypted secret in Dashboard
