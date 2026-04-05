@@ -4,14 +4,14 @@ export const RAZORPAY_PAGE_URL = 'https://pages.razorpay.com/pl_OAgUqzaaSamkcj/v
 // Short link (fallback, doesn't support amount prefill)
 export const RAZORPAY_DONATE_URL = 'https://rzp.io/l/BMpDxba';
 
-// Asset base URL (Cloudflare)
-export const ASSET_BASE_URL = 'https://dayadevraha.com/kamdhenuseva';
+// Asset base URL (Cloudflare R2 public)
+export const ASSET_BASE_URL = 'https://pub-4d0f40a00e3346068d49bbdd4c914540.r2.dev/kamdhenuseva';
 
 // Hero images
 export const HERO_IMAGES = [
-  `${ASSET_BASE_URL}/assets/home/hero/image-4.jpg`,
-  `${ASSET_BASE_URL}/assets/home/hero/image-1.jpg`,
-  `${ASSET_BASE_URL}/assets/home/hero/image-2.jpg`,
+  `${ASSET_BASE_URL}/assets/savecows/hero-1.jpg`,
+  `${ASSET_BASE_URL}/assets/savecows/hero-2.jpg`,
+  `${ASSET_BASE_URL}/assets/savecows/hero-3.jpg`,
 ];
 
 // Other images
