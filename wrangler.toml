@@ -2,3 +2,12 @@ name = "savecows-landing"
 compatibility_date = "2025-03-20"
 compatibility_flags = ["nodejs_compat_v2"]
 pages_build_output_dir = ".vercel/output/static"
+
+# KV Namespace - добавить позже через Dashboard:
+# 1. Cloudflare Dashboard → Workers & Pages → KV
+# 2. Create namespace "savecows-campaign"
+# 3. Pages → savecows-landing → Settings → Functions → KV namespace bindings
+# 4. Add binding: CAMPAIGN_DATA → savecows-campaign
+
+# Environment variables (set in Cloudflare Dashboard):
+# RAZORPAY_WEBHOOK_SECRET = "your_webhook_secret"

@@ -1,5 +1,7 @@
 // Razorpay Payment Page URL
-// TODO: Replace with separate Hindi/English pages later
+// Full URL supports ?amount= query parameter for prefilling
+export const RAZORPAY_PAGE_URL = 'https://pages.razorpay.com/pl_OAgUqzaaSamkcj/view';
+// Short link (fallback, doesn't support amount prefill)
 export const RAZORPAY_DONATE_URL = 'https://rzp.io/l/BMpDxba';
 
 // Asset base URL (Cloudflare)
@@ -23,10 +25,10 @@ export const IMAGES = {
 
 // Contact information
 export const CONTACTS = {
-  email: 'welcome@kamdhenuseva.com',
-  phone: '+91 7302756618',
+  email: 'kamdhenuseva@dayadevraha.com',
+  phone: '+91 73027 56618',
   whatsapp: '+917302756618',
-  telegram: 'DEVRAHAPOOJA',
+  telegram: 'dayadevraha_support',
 };
 
 // Trust information
@@ -39,4 +41,14 @@ export const DONATION_TIERS = [
   { amount: 1000, label: '~1 week', labelHi: '~1 सप्ताह' },
   { amount: 5000, label: '1 month', labelHi: '1 महीना', popular: true },
   { amount: 10000, label: 'Multiple cows', labelHi: 'कई गायें' },
+];
+
+// Inspirational quotes about cows
+export const QUOTES = [
+  { text: 'The cow is the mother of all civilization.', source: 'Indian Wisdom' },
+  { text: 'To protect cows means to protect the whole cosmic creation.', source: 'Vedic Scripture' },
+  { text: 'The greatness of a nation can be judged by the way its animals are treated.', source: 'Mahatma Gandhi' },
+  { text: 'Cow protection is the gift of Hinduism to the world.', source: 'Mahatma Gandhi' },
+  { text: 'One who, being fully satisfied by milk, is desirous of killing the cow, is in the grossest ignorance.', source: 'Srimad Bhagavatam' },
+  { text: 'The cow is a poem of compassion.', source: 'Indian Proverb' },
 ];

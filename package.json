@@ -11,11 +11,13 @@
     "deploy": "npm run pages:build && npx wrangler pages deploy .vercel/output/static --project-name savecows-landing"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
+    "lucide-react": "^0.400.0",
     "next": "^15.0.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "lucide-react": "^0.400.0",
-    "clsx": "^2.1.1"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.13.0",
