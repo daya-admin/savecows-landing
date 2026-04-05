@@ -346,7 +346,7 @@ function StorySection() {
           <h3 className="text-xl sm:text-2xl text-center mb-6 text-earth-brown font-semibold">
             Why We Care for Cows
           </h3>
-          <div className="prose prose-lg text-gray-700 max-w-3xl mx-auto text-center">
+          <div className="max-w-3xl mx-auto text-center text-gray-700 text-lg leading-relaxed">
             <p>
               In the Vedic scriptures — the Shastras and Puranas — it is said that the cow is the abode of all gods and goddesses. Gau-mata is the living embodiment of maternal love, selflessly sharing her energy with all of humanity. Caring for cows (Gau-seva) is the highest act of virtue, a creation of good karma that requires no special reason, as love and compassion are natural to the human heart. By helping cows, you perform a noble deed, which, according to spiritual teachings, returns to the giver multiplied many times over.
             </p>
@@ -564,7 +564,7 @@ function AdoptCowsSection() {
               You can personally support and stay connected with a cow through our adoption program.
             </p>
             <a
-              href="https://kamdhenuseva.dayadevraha.com/en/cows"
+              href="https://kamdhenuseva.dayadevraha.com/en/donate/cows"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block px-8 py-3 border-2 border-terracotta text-terracotta rounded-full hover:bg-terracotta hover:text-white transition-colors"
