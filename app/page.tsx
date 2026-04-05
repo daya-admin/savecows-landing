@@ -4,28 +4,60 @@ import { useRef, useState, useEffect, useCallback } from 'react'
 import { Heart, Mail, MessageCircle, Send, Shield, Check, Globe } from 'lucide-react'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
-import { RAZORPAY_PAGE_URL, CONTACTS, TRUST_NAME, DONATION_TIERS, HERO_IMAGES, IMAGES, QUOTES } from '@/lib/constants'
+import { RAZORPAY_PAGE_URL, CONTACTS, TRUST_NAME, DONATION_TIERS, HERO_IMAGES, IMAGES, QUOTES, LOGO_URL, KAMDHENUSEVA_URL } from '@/lib/constants'
 import CampaignProgress from './components/CampaignProgress'
 
 export default function Home() {
   const donationRef = useRef<HTMLDivElement>(null)
+  const heroRef = useRef<HTMLDivElement>(null)
+  const ctaRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLDivElement>(null)
+  const [showStickyButton, setShowStickyButton] = useState(true)
+  const visibilityMap = useRef<Map<Element, boolean>>(new Map())
 
   const scrollToDonation = () => {
     donationRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
+  // Hide sticky button when donate buttons are visible
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          visibilityMap.current.set(entry.target, entry.isIntersecting)
+        })
+        const anyVisible = Array.from(visibilityMap.current.values()).some(v => v)
+        setShowStickyButton(!anyVisible)
+      },
+      { threshold: 0.1 }
+    )
+
+    const refs = [heroRef, donationRef, ctaRef, videoRef]
+    refs.forEach(ref => {
+      if (ref.current) {
+        visibilityMap.current.set(ref.current, false)
+        observer.observe(ref.current)
+      }
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <HeroSection onDonateClick={scrollToDonation} />
+      <div ref={heroRef}>
+        <HeroSection onDonateClick={scrollToDonation} />
+      </div>
 
       {/* Campaign Progress */}
       <section className="py-8 px-4 relative z-20">
+        <h2 className="text-2xl sm:text-3xl text-center mb-6 text-terracotta font-semibold">
+          Together we can make a difference
+        </h2>
         <CampaignProgress />
       </section>
 
-      {/* Quick Impact */}
-      <QuickImpact />
 
       {/* Donation Section */}
       <div ref={donationRef}>
@@ -36,7 +68,9 @@ export default function Home() {
       <StorySection />
 
       {/* Call to Action - Appeals */}
-      <CallToActionSection onDonateClick={scrollToDonation} />
+      <div ref={ctaRef}>
+        <CallToActionSection onDonateClick={scrollToDonation} />
+      </div>
 
       {/* Urgent Appeal */}
       <UrgentAppeal />
@@ -45,7 +79,9 @@ export default function Home() {
       <WhereDonationsGo />
 
       {/* Video Section */}
-      <VideoSection onDonateClick={scrollToDonation} />
+      <div ref={videoRef}>
+        <VideoSection onDonateClick={scrollToDonation} />
+      </div>
 
       {/* Adopt Cows Section */}
       <AdoptCowsSection />
@@ -60,7 +96,7 @@ export default function Home() {
       <Footer />
 
       {/* Sticky Mobile Button */}
-      <StickyDonateButton onClick={scrollToDonation} />
+      <StickyDonateButton onClick={scrollToDonation} visible={showStickyButton} />
     </div>
   )
 }
@@ -277,13 +313,6 @@ function DonationSection() {
               Min ₹100 · Max ₹2,00,000
             </p>
           </div>
-        </div>
-
-        {/* Selected Amount Display */}
-        <div className="text-center mb-6">
-          <p className="text-lg text-earth-brown">
-            Selected: <span className="font-bold text-terracotta">₹{selectedAmount.toLocaleString('en-IN')}</span>
-          </p>
         </div>
 
         {/* Emotional Quote */}
@@ -560,6 +589,9 @@ function AdoptCowsSection() {
             <h2 className="text-2xl sm:text-3xl mb-4 text-terracotta font-semibold">
               Looking for a deeper connection?
             </h2>
+            <p className="text-gray-700 mb-4">
+              Adoption is a deeper, more personal way to care — where your support becomes part of a cow&apos;s life.
+            </p>
             <p className="text-gray-700 mb-6">
               You can personally support and stay connected with a cow through our adoption program.
             </p>
@@ -567,9 +599,9 @@ function AdoptCowsSection() {
               href="https://kamdhenuseva.dayadevraha.com/en/donate/cows"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-8 py-3 border-2 border-terracotta text-terracotta rounded-full hover:bg-terracotta hover:text-white transition-colors"
+              className="text-terracotta hover:text-terracotta-dark underline underline-offset-2 transition-colors"
             >
-              Adopt a Cow
+              Adopt a Cow →
             </a>
           </div>
         </div>
@@ -586,17 +618,15 @@ function QuoteSection() {
   }, [])
 
   return (
-    <section className="py-16 px-4 bg-spiritual-cream relative overflow-hidden">
-      {/* Decorative quotes */}
-      <div className="absolute top-4 left-4 sm:top-8 sm:left-8 text-6xl sm:text-8xl text-terracotta/10 font-serif select-none">"</div>
-      <div className="absolute bottom-4 right-4 sm:bottom-8 sm:right-8 text-6xl sm:text-8xl text-terracotta/10 font-serif select-none">"</div>
-
-      <div className="max-w-3xl mx-auto text-center relative z-10">
-        <div className="w-16 h-1 bg-terracotta mx-auto mb-8" />
-        <blockquote className="text-lg sm:text-xl md:text-2xl text-earth-brown leading-relaxed">
+    <section className="py-16 px-4 bg-white">
+      <div className="max-w-4xl mx-auto text-center">
+        <div className="w-16 h-1 bg-gray-300 mx-auto mb-8" />
+        <blockquote className="text-xl sm:text-2xl md:text-3xl text-gray-700 leading-relaxed font-medium">
+          <span className="text-gray-300 font-serif">"</span>
           {quote.text}
+          <span className="text-gray-300 font-serif">"</span>
         </blockquote>
-        <p className="mt-6 text-gray-600">— {quote.source}</p>
+        <p className="mt-6 text-gray-500">— {quote.source}</p>
       </div>
     </section>
   )
@@ -641,7 +671,7 @@ function InternationalSupport() {
           International Donors
         </h2>
         <p className="text-base sm:text-lg text-gray-700 max-w-2xl mx-auto mb-8">
-          For donations from outside India, please contact us for alternative payment methods.
+          For donations from outside India, please don&apos;t hesitate to get in touch with us for alternative payment methods.
         </p>
 
         <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
@@ -667,26 +697,109 @@ function InternationalSupport() {
 }
 
 function Footer() {
+  const quickLinks = [
+    { name: 'Home', href: KAMDHENUSEVA_URL },
+    { name: 'About Us', href: `${KAMDHENUSEVA_URL}/about` },
+    { name: 'Donate', href: `${KAMDHENUSEVA_URL}/donate` },
+    { name: 'Adopt a Cow', href: `${KAMDHENUSEVA_URL}/donate/cows` },
+    { name: 'Gallery', href: `${KAMDHENUSEVA_URL}/gallery` },
+    { name: 'FAQ', href: `${KAMDHENUSEVA_URL}/faq` },
+  ]
+
+  const contactInfo = [
+    { icon: Mail, label: CONTACTS.email, href: `mailto:${CONTACTS.email}` },
+    { icon: MessageCircle, label: CONTACTS.phone, href: `https://wa.me/${CONTACTS.whatsapp}` },
+  ]
+
   return (
-    <footer className="py-8 px-4 bg-earth-brown text-white">
-      <div className="max-w-4xl mx-auto text-center">
-        <p className="font-semibold mb-2">{TRUST_NAME}</p>
-        <div className="flex justify-center gap-4 text-sm text-white/70">
-          <a href="/legal/privacy" className="hover:text-white">Privacy Policy</a>
-          <span>|</span>
-          <a href="/legal/donation" className="hover:text-white">Donation Policy</a>
+    <footer className="py-10 px-4 bg-earth-brown text-white">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          {/* Logo & Description */}
+          <div className="md:col-span-1">
+            <a href={KAMDHENUSEVA_URL} target="_blank" rel="noopener noreferrer" className="inline-block mb-4">
+              <img src={LOGO_URL} alt="Kamdhenuseva" className="h-24 w-24 object-contain" />
+            </a>
+            <p className="text-white/80 text-sm leading-relaxed">
+              Kamdhenuseva is an initiative by Shri Devraha Baba Ashram dedicated to the welfare of cows.
+            </p>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
+            <ul className="space-y-2">
+              {quickLinks.map((link) => (
+                <li key={link.name}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/80 hover:text-white transition-colors text-sm"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h3 className="font-semibold text-lg mb-4">Contact</h3>
+            <ul className="space-y-3">
+              {contactInfo.map((item) => (
+                <li key={item.label}>
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-sm"
+                  >
+                    <item.icon className="w-4 h-4" />
+                    <span>{item.label}</span>
+                  </a>
+                </li>
+              ))}
+              <li className="flex items-start gap-2 text-white/80 text-sm">
+                <Globe className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                <span>Devaraha, Vrindavan,<br />Uttar Pradesh, India</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h3 className="font-semibold text-lg mb-4">Legal</h3>
+            <ul className="space-y-2">
+              <li>
+                <a href="/legal/privacy" className="text-white/80 hover:text-white transition-colors text-sm">
+                  Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a href="/legal/donation" className="text-white/80 hover:text-white transition-colors text-sm">
+                  Donation Policy
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <p className="mt-4 text-sm text-white/50">
-          &copy; {new Date().getFullYear()} All rights reserved.
-        </p>
+
+        {/* Bottom Bar */}
+        <div className="border-t border-white/20 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-white/60 text-sm">
+            &copy; {new Date().getFullYear()} {TRUST_NAME}. All rights reserved.
+          </p>
+        </div>
       </div>
     </footer>
   )
 }
 
-function StickyDonateButton({ onClick }: { onClick: () => void }) {
+function StickyDonateButton({ onClick, visible }: { onClick: () => void; visible: boolean }) {
   return (
-    <div className="fixed bottom-4 left-4 right-4 z-50 sm:hidden">
+    <div className={`fixed bottom-4 left-4 right-4 z-50 sm:hidden transition-all duration-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full pointer-events-none'}`}>
       <button
         onClick={onClick}
         className="w-full btn-primary py-4 text-lg flex items-center justify-center gap-2"

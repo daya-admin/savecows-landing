@@ -10,7 +10,7 @@ const config: Config = {
       colors: {
         'warm-beige': '#FDF6E9',
         'spiritual-cream': '#FFF9F0',
-        'earth-brown': '#5D4037',
+        'earth-brown': '#5A3A2E',
         'terracotta': '#D97706',
         'terracotta-dark': '#B45309',
         'terracotta-light': '#F59E0B',

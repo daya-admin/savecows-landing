@@ -7,6 +7,12 @@ export const RAZORPAY_DONATE_URL = 'https://rzp.io/l/BMpDxba';
 // Asset base URL (Cloudflare R2 public)
 export const ASSET_BASE_URL = 'https://pub-4d0f40a00e3346068d49bbdd4c914540.r2.dev/kamdhenuseva';
 
+// Logo
+export const LOGO_URL = 'https://kamdhenuseva.dayadevraha.com/logo.png';
+
+// Kamdhenuseva base URL
+export const KAMDHENUSEVA_URL = 'https://kamdhenuseva.dayadevraha.com/en';
+
 // Hero images
 export const HERO_IMAGES = [
   `${ASSET_BASE_URL}/assets/savecows/hero-1.jpg`,
@@ -42,8 +48,8 @@ export const TRUST_NAME_HI = 'श्री देवराहा बाबा �
 
 // Donation tiers (INR)
 export const DONATION_TIERS = [
-  { amount: 500, label: '~3 days', labelHi: '~3 दिन' },
-  { amount: 1000, label: '~1 week', labelHi: '~1 सप्ताह' },
+  { amount: 500, label: '3 days', labelHi: '3 दिन' },
+  { amount: 1000, label: '1 week', labelHi: '1 सप्ताह' },
   { amount: 5000, label: '1 month', labelHi: '1 महीना', popular: true },
   { amount: 10000, label: 'Multiple cows', labelHi: 'कई गायें' },
 ];
