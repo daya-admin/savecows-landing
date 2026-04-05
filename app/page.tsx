@@ -20,7 +20,7 @@ export default function Home() {
       <HeroSection onDonateClick={scrollToDonation} />
 
       {/* Campaign Progress */}
-      <section className="py-8 px-4 -mt-12 relative z-20">
+      <section className="py-8 px-4 relative z-20">
         <CampaignProgress />
       </section>
 
@@ -86,7 +86,7 @@ function HeroSection({ onDonateClick }: { onDonateClick: () => void }) {
   }, [emblaApi, onSelect])
 
   return (
-    <section className="relative min-h-[85vh] md:min-h-[90vh] flex items-center justify-center overflow-hidden pb-16">
+    <section className="relative min-h-[85vh] md:min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background Carousel */}
       <div className="absolute inset-0 z-0" ref={emblaRef}>
         <div className="flex h-full">
