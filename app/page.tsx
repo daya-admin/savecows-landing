@@ -20,7 +20,7 @@ export default function Home() {
       <HeroSection onDonateClick={scrollToDonation} />
 
       {/* Campaign Progress */}
-      <section className="py-8 px-4 bg-gradient-to-b from-black/20 to-transparent -mt-32 pt-36 relative z-20">
+      <section className="py-8 px-4 -mt-24 relative z-20">
         <CampaignProgress />
       </section>
 
