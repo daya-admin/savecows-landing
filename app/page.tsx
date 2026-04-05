@@ -763,7 +763,7 @@ function Footer() {
               ))}
               <li className="flex items-start gap-2 text-white/80 text-sm">
                 <Globe className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                <span>Shri Devraha Baba Ashram,<br />Vrindavan, Yamuna Tat, Post-Dangoli,<br />(Tahshil-Mant), Mathura,<br />Uttar Pradesh - 281202</span>
+                <span>Shri Devraha Baba Ashram<br />Vrindavan, Yamuna Tat,<br />Post-Dangoli,<br />(Tahshil-Mant), Mathura,<br />Uttar Pradesh - 281202</span>
               </li>
             </ul>
           </div>
