@@ -72,6 +72,9 @@ export default function Home() {
         <CallToActionSection onDonateClick={scrollToDonation} />
       </div>
 
+      {/* Quote Section */}
+      <QuoteSection />
+
       {/* Urgent Appeal */}
       <UrgentAppeal />
 
@@ -85,9 +88,6 @@ export default function Home() {
 
       {/* Adopt Cows Section */}
       <AdoptCowsSection />
-
-      {/* Quote Section */}
-      <QuoteSection />
 
       {/* International Support */}
       <InternationalSupport />
@@ -387,9 +387,25 @@ function StorySection() {
           <h3 className="text-xl sm:text-2xl text-center mb-6 text-earth-brown font-semibold">
             Preserving Rare Cow Breeds
           </h3>
-          <p className="prose prose-lg text-gray-700 max-w-3xl mx-auto text-center">
+          <p className="prose prose-lg text-gray-700 max-w-3xl mx-auto text-center mb-8">
             Previously, there were more than a hundred breeds of cows in India, but today only 32 remain. The Ashram of Shri Devraha Baba is dedicated to preserving and reproducing these rare breeds.
           </p>
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="rounded-xl overflow-hidden shadow-lg">
+              <img
+                src={IMAGES.rareBreed1}
+                alt="Rare cow breed at our Goshala"
+                className="w-full h-64 md:h-80 object-cover"
+              />
+            </div>
+            <div className="rounded-xl overflow-hidden shadow-lg">
+              <img
+                src={IMAGES.rareBreed2}
+                alt="Rare cow breed at our Goshala"
+                className="w-full h-64 md:h-80 object-cover"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Ecological Significance */}
@@ -763,7 +779,14 @@ function Footer() {
               ))}
               <li className="flex items-start gap-2 text-white/80 text-sm">
                 <Globe className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                <span>Shri Devraha Baba Ashram<br />Vrindavan, Yamuna Tat,<br />Post-Dangoli,<br />(Tahshil-Mant), Mathura,<br />Uttar Pradesh - 281202</span>
+                <a
+                  href="https://www.google.com/maps/place/Yogiraj+Devraha+Baba+(Samadhi+sthal+and+Ashram)/@27.5882824,77.7155146,17z"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  Shri Devraha Baba Ashram<br />Vrindavan, Yamuna Tat,<br />Post-Dangoli,<br />(Tahshil-Mant), Mathura,<br />Uttar Pradesh - 281202
+                </a>
               </li>
             </ul>
           </div>

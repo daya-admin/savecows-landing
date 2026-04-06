@@ -28,6 +28,8 @@ export const IMAGES = {
   urgentAppeal: `${ASSET_BASE_URL}/assets/savecows/urgent-appeal.jpg`,
   donationsGo: `${ASSET_BASE_URL}/assets/savecows/donations-go.jpg`,
   adoptCow: `${ASSET_BASE_URL}/assets/savecows/adopt-cow.jpg`,
+  rareBreed1: `${ASSET_BASE_URL}/assets/savecows/rare-breed-1.jpg`,
+  rareBreed2: `${ASSET_BASE_URL}/assets/savecows/rare-breed-2.jpg`,
   faq: `${ASSET_BASE_URL}/assets/home/faq/image-1.jpg`,
   cowPuja1: `${ASSET_BASE_URL}/assets/cow-puja/1.jpg`,
   cowPuja2: `${ASSET_BASE_URL}/assets/cow-puja/2.jpg`,
