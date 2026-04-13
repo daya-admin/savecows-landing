@@ -5,9 +5,12 @@ import { Heart, Mail, MessageCircle, Send, Shield, Check, Globe } from 'lucide-r
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import { RAZORPAY_PAGE_URL, CONTACTS, TRUST_NAME, DONATION_TIERS, HERO_IMAGES, IMAGES, QUOTES, LOGO_URL, KAMDHENUSEVA_URL } from '@/lib/constants'
+import { useLocale, useSetLocale, useTranslations } from '@/lib/i18n'
+import { LOCALES, type Locale } from '@/lib/messages'
 import CampaignProgress from './components/CampaignProgress'
 
 export default function Home() {
+  const t = useTranslations('SaveCows')
   const donationRef = useRef<HTMLDivElement>(null)
   const heroRef = useRef<HTMLDivElement>(null)
   const ctaRef = useRef<HTMLDivElement>(null)
@@ -53,7 +56,7 @@ export default function Home() {
       {/* Campaign Progress */}
       <section className="py-8 px-4 relative z-20">
         <h2 className="text-2xl sm:text-3xl text-center mb-6 text-terracotta font-semibold">
-          Together we can make a difference
+          {t('campaign.togetherTitle')}
         </h2>
         <CampaignProgress />
       </section>
@@ -102,6 +105,7 @@ export default function Home() {
 }
 
 function HeroSection({ onDonateClick }: { onDonateClick: () => void }) {
+  const t = useTranslations('SaveCows.hero')
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({ delay: 5000, stopOnInteraction: false })
   ])
@@ -123,6 +127,9 @@ function HeroSection({ onDonateClick }: { onDonateClick: () => void }) {
 
   return (
     <section className="relative min-h-[85vh] md:min-h-[90vh] flex items-center justify-center overflow-hidden">
+      {/* Language Switcher */}
+      <LanguageSwitcher />
+
       {/* Background Carousel */}
       <div className="absolute inset-0 z-0" ref={emblaRef}>
         <div className="flex h-full">
@@ -144,19 +151,19 @@ function HeroSection({ onDonateClick }: { onDonateClick: () => void }) {
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-4 leading-tight font-bold">
-          Protect Sacred Life.
+          {t('title1')}
           <br />
-          Nourish the Future.
+          {t('title2')}
         </h1>
 
         <div className="inline-block px-6 py-2 mb-6 rounded-full bg-amber-500/20 border-2 border-amber-400">
           <p className="text-lg sm:text-xl text-amber-200 tracking-wide">
-            Save Cow Save Earth
+            {t('badge')}
           </p>
         </div>
 
         <p className="text-lg sm:text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-          Help us provide a full year of nourishment for rescued and protected cows.
+          {t('subtitleBefore')} <strong>{t('subtitleBold')}</strong> {t('subtitleAfter')}
         </p>
 
         <button
@@ -164,7 +171,7 @@ function HeroSection({ onDonateClick }: { onDonateClick: () => void }) {
           className="btn-primary text-base sm:text-lg px-8 py-4 inline-flex items-center gap-2"
         >
           <Heart className="w-5 h-5" />
-          Donate Now
+          {t('donateNow')}
         </button>
 
         {/* Carousel Dots */}
@@ -185,49 +192,25 @@ function HeroSection({ onDonateClick }: { onDonateClick: () => void }) {
   )
 }
 
-function QuickImpact() {
-  const stats = [
-    { number: '1000+', label: 'Cows Protection', labelHi: 'गायों की रक्षा' },
-    { number: '₹5,000', label: 'Monthly Care Cost', labelHi: 'मासिक देखभाल' },
-    { number: '365', label: 'Days of Love', labelHi: 'प्यार के दिन' },
-  ]
-
-  return (
-    <section className="py-12 px-4 bg-white">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl sm:text-3xl text-center mb-8 text-earth-brown font-semibold">
-          Together we can make a difference
-        </h2>
-        <div className="grid grid-cols-3 gap-4">
-          {stats.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-terracotta">
-                {stat.number}
-              </p>
-              <p className="text-sm sm:text-base text-gray-600 mt-1">
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function DonationSection() {
+  const t = useTranslations('SaveCows.donation')
   const [selectedAmount, setSelectedAmount] = useState<number>(5000)
   const [customAmount, setCustomAmount] = useState<string>('')
   const [isCustom, setIsCustom] = useState<boolean>(false)
 
+  const tierLabels: Record<number, string> = {
+    500: t('tierDays3'),
+    1000: t('tierWeek'),
+    5000: t('tierMonth'),
+    10000: t('tierMultiple'),
+  }
+
   const handleCustomAmountChange = (value: string) => {
-    // Allow only numbers
     const numericValue = value.replace(/[^0-9]/g, '')
     setCustomAmount(numericValue)
 
     if (numericValue) {
       const amount = parseInt(numericValue, 10)
-      // Limit: min 100, max 200000 (2 lakh)
       if (amount >= 100 && amount <= 200000) {
         setSelectedAmount(amount)
         setIsCustom(true)
@@ -247,11 +230,11 @@ function DonationSection() {
         {/* Header */}
         <div className="text-center mb-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl mb-4 text-earth-brown font-semibold">
-            Support a Cow&apos;s Life
+            {t('title')}
           </h2>
           <p className="text-base sm:text-lg text-gray-700 max-w-2xl mx-auto">
-            Caring for one cow costs approximately{' '}
-            <span className="text-terracotta font-semibold">₹5,000 per month</span>.
+            {t('costInfo')}{' '}
+            <span className="text-terracotta font-semibold">{t('costAmount')}</span>.
           </p>
         </div>
 
@@ -273,7 +256,7 @@ function DonationSection() {
               >
                 {tier.popular && !isSelected && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-sacred-orange text-white text-xs rounded-full">
-                    Popular
+                    {t('popular')}
                   </div>
                 )}
                 {isSelected && (
@@ -284,7 +267,7 @@ function DonationSection() {
                 <p className="text-2xl sm:text-3xl font-bold text-terracotta-dark">
                   ₹{tier.amount.toLocaleString('en-IN')}
                 </p>
-                <p className="text-sm text-gray-600 mt-2">{tier.label}</p>
+                <p className="text-sm text-gray-600 mt-2">{tierLabels[tier.amount] ?? tier.label}</p>
               </div>
             )
           })}
@@ -296,7 +279,7 @@ function DonationSection() {
             isCustom ? 'ring-2 ring-terracotta' : ''
           }`}>
             <label className="block text-sm text-gray-600 mb-2 text-center">
-              Or enter a custom amount:
+              {t('customLabel')}
             </label>
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl text-gray-400">₹</span>
@@ -305,12 +288,12 @@ function DonationSection() {
                 inputMode="numeric"
                 value={customAmount}
                 onChange={(e) => handleCustomAmountChange(e.target.value)}
-                placeholder="Enter amount"
+                placeholder={t('customPlaceholder')}
                 className="w-full pl-10 pr-4 py-3 text-xl text-center border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-terracotta focus:border-transparent"
               />
             </div>
             <p className="text-xs text-gray-400 mt-2 text-center">
-              Min ₹100 · Max ₹2,00,000
+              {t('customRange')}
             </p>
           </div>
         </div>
@@ -318,7 +301,7 @@ function DonationSection() {
         {/* Emotional Quote */}
         <div className="text-center mb-8">
           <p className="text-base sm:text-lg italic text-earth-brown">
-            &quot;You can take care of a life, even for a single day.&quot;
+            &quot;{t('quote')}&quot;
           </p>
         </div>
 
@@ -331,12 +314,12 @@ function DonationSection() {
             className="btn-primary text-base sm:text-lg px-10 py-4 inline-flex items-center gap-2"
           >
             <Heart className="w-5 h-5" />
-            Donate ₹{selectedAmount.toLocaleString('en-IN')}
+            {t('donateAmount', { amount: selectedAmount.toLocaleString('en-IN') })}
           </a>
 
           <div className="mt-4 flex items-center justify-center gap-2 text-sm text-gray-600">
             <Shield className="w-4 h-4 text-terracotta" />
-            <span>Secure payment powered by Razorpay</span>
+            <span>{t('securePayment')}</span>
           </div>
         </div>
       </div>
@@ -345,12 +328,14 @@ function DonationSection() {
 }
 
 function StorySection() {
+  const t = useTranslations('SaveCows.story')
+
   return (
     <section className="py-12 sm:py-16 px-4 bg-white">
       <div className="max-w-5xl mx-auto">
         {/* About Our Goshala */}
         <h2 className="text-2xl sm:text-3xl text-center mb-8 text-earth-brown font-semibold">
-          About Our Goshala
+          {t('aboutTitle')}
         </h2>
         <div className="grid md:grid-cols-2 gap-8 items-center mb-16">
           <div className="rounded-xl overflow-hidden shadow-lg">
@@ -361,34 +346,28 @@ function StorySection() {
             />
           </div>
           <div className="prose prose-lg text-gray-700">
-            <p>
-              Our shelter is located in the holy city of Vrindavan, on the banks of the sacred Yamuna, within the Ashram of Shri Devraha Baba. This is a place where love and care become a reality for over 1,000 cows. We take under our protection not only healthy cows and bulls but also those who are in special need of help: the sick and cows with physical challenges, who find shelter and care in our ashram. We strive to surround every Gau-mata under our care with the utmost attention, creating an atmosphere of peace and love for them.
-            </p>
-            <p className="mt-4">
-              In our Ashram, cows are not seen as financial instruments for profit. They live here for their entire lives, and after their natural death, they are buried with honors and the recitation of mantras, as sacred beings. Each cow is given a name, as they deeply value personal attention and love, which even physically reflects in their health and the amount of milk they produce.
-            </p>
+            <p>{t('aboutP1')}</p>
+            <p className="mt-4">{t('aboutP2')}</p>
           </div>
         </div>
 
         {/* Why We Care */}
         <div className="bg-spiritual-cream rounded-2xl p-8 mb-16">
           <h3 className="text-xl sm:text-2xl text-center mb-6 text-earth-brown font-semibold">
-            Why We Care for Cows
+            {t('whyCareTitle')}
           </h3>
           <div className="max-w-3xl mx-auto text-center text-gray-700 text-lg leading-relaxed">
-            <p>
-              In the Vedic scriptures — the Shastras and Puranas — it is said that the cow is the abode of all gods and goddesses. Gau-mata is the living embodiment of maternal love, selflessly sharing her energy with all of humanity. Caring for cows (Gau-seva) is the highest act of virtue, a creation of good karma that requires no special reason, as love and compassion are natural to the human heart. By helping cows, you perform a noble deed, which, according to spiritual teachings, returns to the giver multiplied many times over.
-            </p>
+            <p>{t('whyCareText')}</p>
           </div>
         </div>
 
         {/* Preserving Rare Breeds */}
         <div className="mb-16">
           <h3 className="text-xl sm:text-2xl text-center mb-6 text-earth-brown font-semibold">
-            Preserving Rare Cow Breeds
+            {t('rareBreedsTitle')}
           </h3>
           <p className="prose prose-lg text-gray-700 max-w-3xl mx-auto text-center mb-8">
-            Previously, there were more than a hundred breeds of cows in India, but today only 32 remain. The Ashram of Shri Devraha Baba is dedicated to preserving and reproducing these rare breeds.
+            {t('rareBreedsText')}
           </p>
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             <div className="rounded-xl overflow-hidden shadow-lg">
@@ -410,35 +389,31 @@ function StorySection() {
 
         {/* Ecological Significance */}
         <h3 className="text-xl sm:text-2xl text-center mb-6 text-earth-brown font-semibold">
-          The Ecological Significance of Cows and Bulls
+          {t('ecologicalTitle')}
         </h3>
         <p className="prose prose-lg text-gray-700 max-w-3xl mx-auto text-center mb-8">
-          Cows are a source of blessings that allow the creation of eco-friendly life-support systems:
+          {t('ecologicalSubtitle')}
         </p>
         <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
           <div className="bg-white rounded-xl p-6 shadow-md text-center">
-            <h4 className="font-semibold text-terracotta mb-2">Biogas</h4>
-            <p className="text-sm text-gray-600">
-              Cow dung in the Ashram is used to produce biogas, which provides fuel for cooking prasadam for thousands of people and for preparing Ayurvedic medicines.
-            </p>
+            <h4 className="font-semibold text-terracotta mb-2">{t('biogas')}</h4>
+            <p className="text-sm text-gray-600">{t('biogasDesc')}</p>
           </div>
           <div className="bg-white rounded-xl p-6 shadow-md text-center">
-            <h4 className="font-semibold text-terracotta mb-2">Zero-waste and eco-friendly production</h4>
-            <p className="text-sm text-gray-600">
-              Paper, packaging, disposable tableware, and napkins are made from the cellulose in cow dung. This helps preserve forests and nature by replacing tree cutting with the use of cow by-products.
-            </p>
+            <h4 className="font-semibold text-terracotta mb-2">{t('zeroWaste')}</h4>
+            <p className="text-sm text-gray-600">{t('zeroWasteDesc')}</p>
           </div>
           <div className="bg-white rounded-xl p-6 shadow-md text-center">
-            <h4 className="font-semibold text-terracotta mb-2">Stone-grinding with bulls</h4>
-            <p className="text-sm text-gray-600">
-              Bulls help turn stone mills, producing flour without heat treatment and preserving all the nutrients of the grain. This method is completely ecological: there is no waste, no electricity is consumed, and the air is not polluted.
-            </p>
+            <h4 className="font-semibold text-terracotta mb-2">{t('stoneGrinding')}</h4>
+            <p className="text-sm text-gray-600">{t('stoneGrindingDesc')}</p>
           </div>
           <div className="bg-white rounded-xl p-6 shadow-md text-center">
-            <h4 className="font-semibold text-terracotta mb-2">Ayurveda</h4>
-            <p className="text-sm text-gray-600">
-              Products derived from cows (Panchagavya) are indispensable in the preparation of important Ayurvedic medicines and for purifying herbs, minerals, and metals.
-            </p>
+            <h4 className="font-semibold text-terracotta mb-2">{t('ayurveda')}</h4>
+            <p className="text-sm text-gray-600">{t('ayurvedaDesc')}</p>
+          </div>
+          <div className="bg-white rounded-xl p-6 shadow-md text-center sm:col-span-2">
+            <h4 className="font-semibold text-terracotta mb-2">{t('foundation')}</h4>
+            <p className="text-sm text-gray-600">{t('foundationDesc')}</p>
           </div>
         </div>
       </div>
@@ -447,10 +422,11 @@ function StorySection() {
 }
 
 function CallToActionSection({ onDonateClick }: { onDonateClick: () => void }) {
+  const t = useTranslations('SaveCows.cta')
   const appeals = [
-    { icon: Shield, text: 'Protect rare and sacred cow breeds' },
-    { icon: Heart, text: 'Sustain a cruelty-free sanctuary' },
-    { icon: Globe, text: 'Support ecological balance' },
+    { icon: Shield, text: t('protect') },
+    { icon: Heart, text: t('sustain') },
+    { icon: Globe, text: t('support') },
   ]
 
   return (
@@ -472,7 +448,7 @@ function CallToActionSection({ onDonateClick }: { onDonateClick: () => void }) {
             className="btn-primary text-lg px-10 py-4 inline-flex items-center gap-2"
           >
             <Heart className="w-5 h-5" />
-            Donate Now
+            {t('donateNow')}
           </button>
         </div>
       </div>
@@ -481,6 +457,8 @@ function CallToActionSection({ onDonateClick }: { onDonateClick: () => void }) {
 }
 
 function UrgentAppeal() {
+  const t = useTranslations('SaveCows.urgentAppeal')
+
   return (
     <section className="py-12 sm:py-16 px-4 bg-gradient-to-r from-terracotta/10 to-sacred-orange/10">
       <div className="max-w-5xl mx-auto">
@@ -494,12 +472,10 @@ function UrgentAppeal() {
           </div>
           <div>
             <h2 className="text-2xl sm:text-3xl mb-6 text-earth-brown font-semibold">
-              Urgent Appeal — Spring Feed Purchase
+              {t('title')}
             </h2>
             <div className="prose prose-lg text-gray-700">
-              <p>
-                The most critical time of the year has arrived. The ashram's own lands can provide only 5–7% of the cows' annual food needs. The entire main supply of feed for the year must be purchased within a short period: from mid-March to the end of April. This is a time of intensive work, on which the well-being of our cows for the coming months depends. We invite you to join this important mission and help us establish the annual food fund.
-              </p>
+              <p>{t('text')}</p>
             </div>
           </div>
         </div>
@@ -509,6 +485,8 @@ function UrgentAppeal() {
 }
 
 function WhereDonationsGo() {
+  const t = useTranslations('SaveCows.whereDonationsGo')
+
   return (
     <section className="py-12 sm:py-16 px-4 bg-white">
       <div className="max-w-5xl mx-auto">
@@ -524,20 +502,16 @@ function WhereDonationsGo() {
           </div>
           <div className="md:order-1">
             <h2 className="text-2xl sm:text-3xl mb-6 text-earth-brown font-semibold">
-              Where Your Donations Go
+              {t('title')}
             </h2>
             <div className="prose prose-lg text-gray-700">
-              <p>
-                Every donation you make turns into high-quality food for the cows. During this period, we purchase:
-              </p>
+              <p>{t('intro')}</p>
               <ul className="mt-4 space-y-2">
-                <li><strong>Busa</strong> — carefully selected dry hay.</li>
-                <li><strong>Khal</strong> — nutritious mustard cake.</li>
-                <li><strong>Grain mixes</strong> — wheat, barley, bajra, and other types of grains and millets.</li>
+                <li><strong>{t('busa')}</strong> — {t('busaDesc')}</li>
+                <li><strong>{t('khal')}</strong> — {t('khalDesc')}</li>
+                <li><strong>{t('grains')}</strong> — {t('grainsDesc')}</li>
               </ul>
-              <p className="mt-4">
-                We provide a complete diet to ensure our cows remain healthy and strong.
-              </p>
+              <p className="mt-4">{t('completeDiet')}</p>
             </div>
           </div>
         </div>
@@ -545,12 +519,10 @@ function WhereDonationsGo() {
         {/* Trust and Assurance */}
         <div className="mt-12 bg-spiritual-cream rounded-2xl p-8">
           <h3 className="text-xl sm:text-2xl text-center mb-6 text-earth-brown font-semibold">
-            Trust and Assurance
+            {t('trustTitle')}
           </h3>
           <div className="prose prose-lg text-gray-700 max-w-3xl mx-auto text-center">
-            <p>
-              You can be 100% confident that every contribution will be used exclusively for the cows' needs and the purchase of feed. Your participation in Gau-seva is not just financial support; it is an investment in your "spiritual treasury," bringing blessings to you and your loved ones. Let us perform this noble service together!
-            </p>
+            <p>{t('trustText')}</p>
           </div>
         </div>
       </div>
@@ -559,22 +531,39 @@ function WhereDonationsGo() {
 }
 
 function VideoSection({ onDonateClick }: { onDonateClick: () => void }) {
+  const t = useTranslations('SaveCows.video')
+  const locale = useLocale()
+  const mainVideoId = locale === 'ru' ? 'QshfBzEM_RI' : '5IkJvS9RCyI'
+
   return (
     <section className="py-12 sm:py-16 px-4 bg-earth-brown text-white">
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-2xl sm:text-3xl md:text-4xl mb-8 font-semibold">
-          Help Us Provide Food for 1,000 Cows for an Entire Year
+          {t('title')}
         </h2>
 
-        {/* YouTube Video */}
-        <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-2xl mb-8">
-          <iframe
-            src="https://www.youtube.com/embed/5IkJvS9RCyI"
-            title="Gau Seva Video"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="absolute inset-0 w-full h-full"
-          />
+        {/* Videos — landscape + shorts side by side */}
+        <div className="flex flex-col md:flex-row gap-6 mb-8 items-center md:items-stretch">
+          {/* Main Video — takes remaining space */}
+          <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-2xl">
+            <iframe
+              src={`https://www.youtube.com/embed/${mainVideoId}`}
+              title="Gau Seva Video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+            />
+          </div>
+          {/* Shorts Video — fixed narrow width */}
+          <div className="w-64 sm:w-72 md:w-48 lg:w-56 shrink-0 aspect-[9/16] rounded-xl overflow-hidden shadow-2xl">
+            <iframe
+              src="https://www.youtube.com/embed/eqMPyaQaxi0"
+              title="Gau Seva Shorts"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
+            />
+          </div>
         </div>
 
         <button
@@ -582,7 +571,7 @@ function VideoSection({ onDonateClick }: { onDonateClick: () => void }) {
           className="bg-terracotta hover:bg-terracotta-dark text-white text-lg px-10 py-4 rounded-full inline-flex items-center gap-2 transition-all hover:scale-105"
         >
           <Heart className="w-5 h-5" />
-          Donate Now
+          {t('donateNow')}
         </button>
       </div>
     </section>
@@ -590,6 +579,8 @@ function VideoSection({ onDonateClick }: { onDonateClick: () => void }) {
 }
 
 function AdoptCowsSection() {
+  const t = useTranslations('SaveCows.adopt')
+
   return (
     <section className="py-12 sm:py-16 px-4 bg-warm-beige">
       <div className="max-w-5xl mx-auto">
@@ -603,21 +594,17 @@ function AdoptCowsSection() {
           </div>
           <div>
             <h2 className="text-2xl sm:text-3xl mb-4 text-terracotta font-semibold">
-              Looking for a deeper connection?
+              {t('title')}
             </h2>
-            <p className="text-gray-700 mb-4">
-              Adoption is a deeper, more personal way to care — where your support becomes part of a cow&apos;s life.
-            </p>
-            <p className="text-gray-700 mb-6">
-              You can personally support and stay connected with a cow through our adoption program.
-            </p>
+            <p className="text-gray-700 mb-4">{t('p1')}</p>
+            <p className="text-gray-700 mb-6">{t('p2')}</p>
             <a
               href="https://kamdhenuseva.dayadevraha.com/en/donate/cows"
               target="_blank"
               rel="noopener noreferrer"
               className="text-terracotta hover:text-terracotta-dark underline underline-offset-2 transition-colors"
             >
-              Adopt a Cow →
+              {t('link')}
             </a>
           </div>
         </div>
@@ -627,20 +614,23 @@ function AdoptCowsSection() {
 }
 
 function QuoteSection() {
-  const [quote, setQuote] = useState(QUOTES[0])
+  const locale = useLocale()
+  const localeQuotes = QUOTES[locale] ?? QUOTES.en
+  const [quote, setQuote] = useState(localeQuotes[0])
 
   useEffect(() => {
-    setQuote(QUOTES[Math.floor(Math.random() * QUOTES.length)])
-  }, [])
+    const q = QUOTES[locale] ?? QUOTES.en
+    setQuote(q[Math.floor(Math.random() * q.length)])
+  }, [locale])
 
   return (
     <section className="py-16 px-4 bg-white">
       <div className="max-w-4xl mx-auto text-center">
         <div className="w-16 h-1 bg-gray-300 mx-auto mb-8" />
         <blockquote className="text-xl sm:text-2xl md:text-3xl text-gray-700 leading-relaxed font-medium">
-          <span className="text-gray-300 font-serif">"</span>
+          <span className="text-gray-300 font-serif">&ldquo;</span>
           {quote.text}
-          <span className="text-gray-300 font-serif">"</span>
+          <span className="text-gray-300 font-serif">&rdquo;</span>
         </blockquote>
         <p className="mt-6 text-gray-500">— {quote.source}</p>
       </div>
@@ -649,6 +639,7 @@ function QuoteSection() {
 }
 
 function InternationalSupport() {
+  const t = useTranslations('SaveCows.international')
   const contacts = [
     {
       icon: Mail,
@@ -684,10 +675,10 @@ function InternationalSupport() {
     <section className="py-12 sm:py-16 px-4 bg-white">
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-2xl sm:text-3xl mb-3 text-earth-brown font-semibold">
-          International Donors
+          {t('title')}
         </h2>
         <p className="text-base sm:text-lg text-gray-700 max-w-2xl mx-auto mb-8">
-          For donations from outside India, please don&apos;t hesitate to get in touch with us for alternative payment methods.
+          {t('subtitle')}
         </p>
 
         <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
@@ -713,13 +704,15 @@ function InternationalSupport() {
 }
 
 function Footer() {
+  const t = useTranslations('SaveCows.footer')
+
   const quickLinks = [
-    { name: 'Home', href: KAMDHENUSEVA_URL },
-    { name: 'About Us', href: `${KAMDHENUSEVA_URL}/about` },
-    { name: 'Donate', href: `${KAMDHENUSEVA_URL}/donate` },
-    { name: 'Adopt a Cow', href: `${KAMDHENUSEVA_URL}/donate/cows` },
-    { name: 'Gallery', href: `${KAMDHENUSEVA_URL}/gallery` },
-    { name: 'FAQ', href: `${KAMDHENUSEVA_URL}/faq` },
+    { name: t('home'), href: KAMDHENUSEVA_URL },
+    { name: t('aboutUs'), href: `${KAMDHENUSEVA_URL}/about` },
+    { name: t('donate'), href: `${KAMDHENUSEVA_URL}/donate` },
+    { name: t('adoptCow'), href: `${KAMDHENUSEVA_URL}/donate/cows` },
+    { name: t('gallery'), href: `${KAMDHENUSEVA_URL}/gallery` },
+    { name: t('faq'), href: `${KAMDHENUSEVA_URL}/faq` },
   ]
 
   const contactInfo = [
@@ -737,13 +730,13 @@ function Footer() {
               <img src={LOGO_URL} alt="Kamdhenuseva" className="h-24 w-24 object-contain" />
             </a>
             <p className="text-white/80 text-sm leading-relaxed">
-              Kamdhenuseva is an initiative by Shri Devraha Baba Ashram dedicated to the welfare of cows.
+              {t('description')}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
+            <h3 className="font-semibold text-lg mb-4">{t('quickLinks')}</h3>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.name}>
@@ -762,7 +755,7 @@ function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="font-semibold text-lg mb-4">Contact</h3>
+            <h3 className="font-semibold text-lg mb-4">{t('contact')}</h3>
             <ul className="space-y-3">
               {contactInfo.map((item) => (
                 <li key={item.label}>
@@ -793,16 +786,16 @@ function Footer() {
 
           {/* Legal */}
           <div>
-            <h3 className="font-semibold text-lg mb-4">Legal</h3>
+            <h3 className="font-semibold text-lg mb-4">{t('legal')}</h3>
             <ul className="space-y-2">
               <li>
                 <a href="/legal/privacy" className="text-white/80 hover:text-white transition-colors text-sm">
-                  Privacy Policy
+                  {t('privacy')}
                 </a>
               </li>
               <li>
                 <a href="/legal/donation" className="text-white/80 hover:text-white transition-colors text-sm">
-                  Donation Policy
+                  {t('donationPolicy')}
                 </a>
               </li>
             </ul>
@@ -812,7 +805,7 @@ function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-white/20 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-white/60 text-sm">
-            &copy; {new Date().getFullYear()} {TRUST_NAME}. All rights reserved.
+            &copy; {new Date().getFullYear()} {TRUST_NAME}. {t('allRights')}
           </p>
         </div>
       </div>
@@ -820,7 +813,64 @@ function Footer() {
   )
 }
 
+const LOCALE_CONFIG: Record<Locale, { flag: string; label: string; short: string }> = {
+  en: { flag: '🇬🇧', label: 'English', short: 'EN' },
+  ru: { flag: '🇷🇺', label: 'Русский', short: 'RU' },
+  hi: { flag: '🇮🇳', label: 'हिंदी', short: 'HI' },
+}
+
+function LanguageSwitcher() {
+  const locale = useLocale()
+  const setLocale = useSetLocale()
+  const [open, setOpen] = useState(false)
+
+  const current = LOCALE_CONFIG[locale] ?? LOCALE_CONFIG.en
+
+  const switchLocale = (next: Locale) => {
+    setLocale(next)
+    setOpen(false)
+  }
+
+  return (
+    <div className="absolute top-4 right-4 z-20">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 shadow-lg backdrop-blur text-earth-brown text-sm font-medium hover:bg-white transition-all"
+      >
+        <span className="text-base">{current.flag}</span>
+        <span>{current.short}</span>
+        <svg className={`w-3.5 h-3.5 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {open && (
+        <div className="absolute right-0 mt-2 min-w-[160px] bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100">
+          {LOCALES.map(l => {
+            const config = LOCALE_CONFIG[l]
+            const isActive = l === locale
+            return (
+              <button
+                key={l}
+                onClick={() => switchLocale(l)}
+                className={`flex items-center gap-3 w-full px-4 py-3 text-sm text-left transition-colors ${
+                  isActive ? 'bg-warm-beige text-terracotta font-medium' : 'text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                <span className="text-lg">{config.flag}</span>
+                <span>{config.label}</span>
+                {isActive && <Check className="w-4 h-4 ml-auto text-terracotta" />}
+              </button>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+}
+
 function StickyDonateButton({ onClick, visible }: { onClick: () => void; visible: boolean }) {
+  const t = useTranslations('SaveCows.hero')
+
   return (
     <div className={`fixed bottom-4 left-4 right-4 z-50 sm:hidden transition-all duration-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full pointer-events-none'}`}>
       <button
@@ -828,7 +878,7 @@ function StickyDonateButton({ onClick, visible }: { onClick: () => void; visible
         className="w-full btn-primary py-4 text-lg flex items-center justify-center gap-2"
       >
         <Heart className="w-5 h-5" />
-        Donate Now
+        {t('donateNow')}
       </button>
     </div>
   )
