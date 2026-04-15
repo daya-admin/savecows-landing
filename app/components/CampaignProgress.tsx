@@ -77,7 +77,7 @@ export default function CampaignProgress() {
       </div>
 
       {/* Stats Row */}
-      <div className="flex justify-between items-center text-sm sm:text-base">
+      <div className="flex justify-evenly items-center text-sm sm:text-base">
         {/* Percent */}
         <span className="font-semibold text-terracotta">
           {data.percentFunded}% {t('funded')}
