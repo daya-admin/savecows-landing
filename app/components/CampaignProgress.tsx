@@ -55,16 +55,16 @@ export default function CampaignProgress() {
       {/* Amount Raised + Goal on right */}
       <div className="flex justify-between items-baseline mb-2">
         <div>
-          <span className="text-3xl sm:text-4xl font-bold text-terracotta">
+          <span className="text-2xl sm:text-4xl font-bold text-terracotta">
             ₹{formatIndianNumber(data.total)}
           </span>
-          <span className="text-gray-600 ml-2">{t('raised')}</span>
+          <span className="text-sm sm:text-base text-gray-600 ml-1 sm:ml-2">{t('raised')}</span>
         </div>
         <div className="text-right">
-          <span className="text-3xl sm:text-4xl font-bold text-terracotta">
+          <span className="text-2xl sm:text-4xl font-bold text-terracotta">
             ₹{formatIndianNumber(data.goal)}
           </span>
-          <span className="text-gray-600 ml-2">{t('goal')}</span>
+          <span className="text-sm sm:text-base text-gray-600 ml-1 sm:ml-2">{t('goal')}</span>
         </div>
       </div>
 
