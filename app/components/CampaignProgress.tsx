@@ -77,20 +77,20 @@ export default function CampaignProgress() {
       </div>
 
       {/* Stats Row */}
-      <div className="flex justify-between items-center text-sm sm:text-base">
+      <div className="grid grid-cols-3 items-center text-sm sm:text-base">
         {/* Percent */}
         <span className="font-semibold text-terracotta">
           {data.percentFunded}% {t('funded')}
         </span>
 
         {/* Donors */}
-        <div className="flex items-center gap-1 text-gray-600">
+        <div className="flex items-center justify-center gap-1 text-gray-600">
           <Users className="w-4 h-4" />
           <span>{data.donors} {data.donors === 1 ? t('donor') : t('donors')}</span>
         </div>
 
         {/* Days Left */}
-        <div className="flex items-center gap-1 text-gray-600">
+        <div className="flex items-center justify-end gap-1 text-gray-600">
           <Clock className="w-4 h-4" />
           <span className={data.daysLeft <= 7 ? 'text-red-500 font-semibold' : ''}>
             {data.daysLeft} {t('daysLeft')}
