@@ -23,6 +23,9 @@ function formatIndianNumber(num: number): string {
 
 export default function CampaignProgress() {
   const t = useTranslations('SaveCows.campaign')
+  // DAYA: временно скрыть денежные метрики (raised / % funded), оставить бар + donors.
+  // Вернуть отображение → поменять на true.
+  const SHOW_FUNDING_STATS = false
   const [data, setData] = useState<CampaignData>({
     total: 0,
     donors: 0,
@@ -48,13 +51,15 @@ export default function CampaignProgress() {
         </h3>
       </div>
 
-      {/* Amount Raised */}
-      <div className="mb-3">
-        <span className="text-3xl sm:text-4xl font-bold text-terracotta">
-          ₹{formatIndianNumber(data.total)}
-        </span>
-        <span className="text-sm sm:text-base text-gray-600 ml-2">{t('raised')}</span>
-      </div>
+      {/* Amount Raised (DAYA: скрыто временно) */}
+      {SHOW_FUNDING_STATS && (
+        <div className="mb-3">
+          <span className="text-3xl sm:text-4xl font-bold text-terracotta">
+            ₹{formatIndianNumber(data.total)}
+          </span>
+          <span className="text-sm sm:text-base text-gray-600 ml-2">{t('raised')}</span>
+        </div>
+      )}
 
       {/* Progress Bar */}
       <div className="relative h-4 bg-gray-200 rounded-full overflow-hidden mb-4">
@@ -66,10 +71,14 @@ export default function CampaignProgress() {
 
       {/* Stats Row */}
       <div className="grid grid-cols-2 items-center gap-3 text-sm sm:text-base">
-        {/* Percent */}
-        <span className="font-semibold text-terracotta">
-          {data.percentFunded}% {t('funded')}
-        </span>
+        {/* Percent (DAYA: скрыто временно; пустой span держит donors в правой колонке) */}
+        {SHOW_FUNDING_STATS ? (
+          <span className="font-semibold text-terracotta">
+            {data.percentFunded}% {t('funded')}
+          </span>
+        ) : (
+          <span />
+        )}
 
         {/* Donors */}
         <div className="flex items-center justify-end gap-1 text-gray-600">
